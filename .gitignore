@@ -1,3 +1,8 @@
 Medical RAG Chatbot/.env
 Medical RAG Chatbot/venv
 Medical RAG Chatbot/Medical_RAG_Chatbot.egg-info
+Medical RAG Chatbot/logs
+Medical RAG Chatbot/app/__pycache__
+Medical RAG Chatbot/app/components/__pycache__
+Medical RAG Chatbot/app/config/__pycache__
+Medical RAG Chatbot/app/common/__pycache__
