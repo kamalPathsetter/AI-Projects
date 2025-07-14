@@ -1,57 +1,62 @@
-from langchain.chains import RetrievalQA
+from langchain.chains import LLMChain
 from langchain_core.prompts import PromptTemplate
 
 from app.components.llm import load_llm
 from app.components.vector_store import load_vector_store
 
-from app.config.config import HUGGINGFACE_REPO_ID, HF_TOKEN
+from app.config.config import GROQ_API_KEY
 from app.common.logger import get_logger
 from app.common.custom_exception import CustomException
 
 logger = get_logger(__name__)
 
 CUSTOM_PROMPT_TEMPLATE = """
-Answer the following medical question in 4-5 lines maximum using only the information provided in the context.
+You are a medical assistant AI. Answer the following medical question using the provided context and chat history.
 
 Context: {context}
 
-Question: {question}
+Chat History:
+{chat_history}
+
+Current Question: {question}
 
 Answer: 
 
 """
 
 def set_custom_prompt():
-    return PromptTemplate(template=CUSTOM_PROMPT_TEMPLATE, input_variables=["context", "question"])
+    return PromptTemplate(template=CUSTOM_PROMPT_TEMPLATE, input_variables=["context", "question", "chat_history"])
 
 
-def create_qa_chain():
+def create_chain():
     try:
-        logger.info("Creating QA chain")
-
-        vector_store = load_vector_store()
-
-        if not vector_store:
-            raise CustomException("Vector store not found")
+        logger.info("Creating LLM chain")
 
         custom_prompt = set_custom_prompt()
+        llm = load_llm()
 
-        llm = load_llm(huggingface_repo_id=HUGGINGFACE_REPO_ID, hf_token=HF_TOKEN)
-
-        qa_chain = RetrievalQA.from_chain_type(
+        chain = LLMChain(
             llm=llm,
-            chain_type="stuff",
-            retriever=vector_store.as_retriever(search_kwargs={"k": 3}),
-            return_source_documents=False,
-            chain_type_kwargs={
-                "prompt": custom_prompt
-            }
+            prompt=custom_prompt
         )
 
-        logger.info("QA chain created successfully")
+        logger.info("LLM chain created successfully")
 
-        return qa_chain
+        return chain
 
     except Exception as e:
-        logger.error(f"Error creating QA chain: {e}")
-        raise CustomException("Error creating QA chain")
+        logger.error(f"Error creating LLM chain: {e}")
+        raise CustomException("Error creating LLM chain")
+
+def get_context_from_query(query):
+    try:
+        vector_store = load_vector_store()
+        if not vector_store:
+            raise CustomException("Vector store not found")
+        
+        docs = vector_store.similarity_search(query, k=3)
+        context = "\n".join([doc.page_content for doc in docs])
+        return context
+    except Exception as e:
+        logger.error(f"Error getting context: {e}")
+        return ""
