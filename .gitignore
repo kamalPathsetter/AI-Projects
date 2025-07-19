@@ -10,4 +10,11 @@ Anime Recommender/.idea
 Anime Recommender/logs
 Anime Recommender/.env
 Anime Recommender/ANIME_RECOMMENDER.egg-info/
-Anime Recommender/ANIME-RECOMMENDER.egg-info
+
+# Medical RAG Chatbot Project
+Medical Rag Chatbot/venv
+Medical Rag Chatbot/.vscode
+Medical Rag Chatbot/.idea
+Medical Rag Chatbot/logs
+Medical Rag Chatbot/.env
+Medical Rag Chatbot/MEDICAL_RAG_CHATBOT.egg-info/
