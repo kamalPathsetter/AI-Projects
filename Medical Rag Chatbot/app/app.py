@@ -1,8 +1,11 @@
+import os
+os.environ["TOKENIZERS_PARALLELISM"] = "false"
 import streamlit as st
-from components.retriever import create_qa_chain
 from dotenv import load_dotenv
+import sys
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from components.retriever import create_qa_chain
 
-# Load environment variables
 load_dotenv()
 
 # Initialize session state
@@ -35,7 +38,9 @@ if user_input:
         if qa_chain is None:
             raise Exception("QA chain could not be created (LLM or VectorStore issue)")
 
-        response = qa_chain.invoke({"query": user_input})
+        formatted_conversation = "\n".join([f"{msg['role']}: {msg['content']}" for msg in st.session_state["messages"]])
+        combined_query = f"Previous conversation:\n{formatted_conversation}\n\nQuestion:\n{user_input}"
+        response = qa_chain.invoke({"query": combined_query})
         result = response.get("result", "No response")
         
         # Append assistant response

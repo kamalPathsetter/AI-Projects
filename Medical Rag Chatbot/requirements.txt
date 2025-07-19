@@ -4,5 +4,6 @@ langchain-huggingface
 faiss-cpu
 python-dotenv
 pypdf
-flask
+streamlit
 sentence-transformers
+langchain-groq

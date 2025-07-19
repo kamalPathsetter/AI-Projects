@@ -2,7 +2,8 @@ from langchain_community.vectorstores import FAISS
 from common.logger import get_logger
 from common.custom_exception import CustomException
 from config.config import DB_FAISS_PATH
-from embeddings import get_embedding_model
+from components.embeddings import get_embedding_model
+import os
 import os
 
 logger = get_logger(__name__)
@@ -14,7 +15,7 @@ def load_vector_store():
         embedding_model = get_embedding_model()
         
         if os.path.exists(DB_FAISS_PATH):
-            return FAISS.load_local(DB_FAISS_PATH, embedding_model)
+            return FAISS.load_local(DB_FAISS_PATH, embedding_model, allow_dangerous_deserialization=True)
         else:
             logger.info("Vector store not found.")
 

@@ -4,14 +4,14 @@ from langchain_core.prompts import PromptTemplate
 from components.llm import load_llm
 from components.vector_store import load_vector_store
 
-from config.config import GROQ_API_KEY, GROQ_MODEL_NAME
+
 from common.logger import get_logger
 from common.custom_exception import CustomException
 
 
 logger = get_logger(__name__)
 
-CUSTOM_PROMPT_TEMPLATE = """ Answer the following medical question in 2-3 lines maximum using only the information provided in the context.
+CUSTOM_PROMPT_TEMPLATE = """ Answer the following medical question using only the information provided in the context.
 
 Context:
 {context}
@@ -23,7 +23,9 @@ Answer:
 """
 
 def set_custom_prompt():
-    return PromptTemplate(template=CUSTOM_PROMPT_TEMPLATE,input_variables=["context" , "question"])
+    prompt = PromptTemplate(template=CUSTOM_PROMPT_TEMPLATE,input_variables=["context" , "question"])
+    logger.info(f"Prompt input variables: {prompt.input_variables}")
+    return prompt
 
 def create_qa_chain():
     try:
@@ -33,7 +35,7 @@ def create_qa_chain():
         if db is None:
             raise CustomException("Vector store not present or empty")
 
-        llm = load_llm(api_key=GROQ_API_KEY,model_name=GROQ_MODEL_NAME)
+        llm = load_llm()
 
         if llm is None:
             raise CustomException("LLM not loaded")
