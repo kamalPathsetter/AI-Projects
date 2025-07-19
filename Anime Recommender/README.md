@@ -29,7 +29,6 @@ This project implements an Anime Recommender system.
 3.  **Install dependencies**:
 
     ```bash
-    pip install -r requirements.txt
     pip install -e .
     ```
 
