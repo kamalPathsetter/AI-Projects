@@ -16,5 +16,5 @@ class AnimeRecommender:
         )
 
     def get_recommendation(self,query:str):
-        result = self.qa_chain({"query":query})
+        result = self.qa_chain.invoke({"query": query})
         return result['result']
