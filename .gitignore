@@ -18,3 +18,12 @@ Medical Rag Chatbot/.idea
 Medical Rag Chatbot/logs
 Medical Rag Chatbot/.env
 Medical Rag Chatbot/MEDICAL_RAG_CHATBOT.egg-info/
+
+# Analyzer GPT Project
+Analyzer GPT/venv
+Analyzer GPT/.vscode
+Analyzer GPT/.idea
+Analyzer GPT/logs
+Analyzer GPT/.env
+Analyzer GPT/ANALYZER_GPT.egg-info/
+Analyzer GPT/temp/
