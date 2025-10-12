@@ -27,3 +27,12 @@ Analyzer GPT/logs
 Analyzer GPT/.env
 Analyzer GPT/ANALYZER_GPT.egg-info/
 Analyzer GPT/temp/
+
+# Refrag Project
+REFRAG/venv
+REFRAG/.vscode
+REFRAG/.idea
+REFRAG/logs
+REFRAG/.env
+REFRAG/REFRAG.egg-info/
+REFRAG/temp/
